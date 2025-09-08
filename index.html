@@ -27,10 +27,12 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body class="bg-[#f0fdf4]">
+
+
     <!-- ----------------Navbar_part-------------------- -->
     <!-- fixed w-full top-0 left-0 z-50 -->
 
-    <main class="bg-[#15803D]">
+    <main class="bg-[#15803D] sticky top-0">
       <section
         class="max-w-[1350px] mx-auto flex justify-between items-center py-[15px]"
       >
@@ -63,7 +65,7 @@
           <img src="B12A06-Green-Earth/assets/hero-leaf1.png" />
         </div>
         <div class="flex-1">
-          <h1 class="text-[40px] font-bold text-center">
+          <h1 class="text-[38px] font-bold text-center">
             Plant a Tree, Grow a Future
           </h1>
           <p class="text-[20px] text-center my-[15px]">
@@ -84,10 +86,34 @@
       </section>
     </main>
 
+    <!-- ------------------card_section---------------- -->
+    <main class="max-w-[1350px] mx-auto mt-[40px]">
+      <h1 class="text-center text-[25px] font-medium">Choose Your Trees</h1>
+      <div class="grid grid-cols-5 gap-[20px]">
+        <section class="" id="allCategory"><h1>Categories</h1></section>
+        <section class="col-span-3" id="card_section"></section>
+
+        <section id="your_cart" class="bg-white px-4 py-3 ">
+          <h2 class="text-lg font-bold mb-2">Your Cart</h2>
+          <div id="cart_items" class="space-y-2"></div>
+          <!-- <hr class="my-2" /> -->
+          <div class="flex justify-between font-bold hidden" id="cart_total_row">
+            <span>Total:</span>
+            <span id="cart_total">৳0</span>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- =============model------------ -->
+
+    <!-- Modal -->
+    <div id="plantModalContainer"></div>
+
     <!-- ----------------About the Campaign------------- -->
 
     <main
-      class="max-w-[900px] flex justify-center items-center mx-auto mt-[30px]"
+      class="max-w-[900px] flex justify-center items-center mx-auto p-13 mt-6"
     >
       <section class="">
         <div class="text-center text-[30px] font-bold">
@@ -95,7 +121,7 @@
         </div>
 
         <div
-          class="flex justify-between gap-[30px] items-center mt-[20px] flex-col md:flex-row"
+          class="flex justify-between gap-[30px] items-center mt-[20px] flex-col md:flex-row py-4"
         >
           <div class="md:w-1/2 w-full">
             <img
@@ -127,38 +153,39 @@
     <!-- --------------our_impact_part------------------- -->
 
     <main class="bg-[#CFF0DC] my-[30px]">
-      <div class="my-[70px] py-[50px]">
+      <div class="py-[80px]">
         <div class="flex justify-center items-center">
-          <p class="text-[22px] font-bold">Our Impact</p>
+          <p class="text-[30px] font-bold">Our Impact</p>
         </div>
 
         <div
           class="max-w-[1350px] mx-auto mt-[40px] flex justify-between items-center gap-[20px] flex-col md:flex-row"
         >
           <div
-            class="md:w-1/3 w-full text-center py-[50px] rounded-[20px] bg-white"
+            class="md:w-1/3 w-full text-center py-[50px] rounded-[20px] bg-white hover:bg-[#86dda9]"
           >
             <p class="font-bold text-green-800 text-[20px]">500K+</p>
             <p class="text-[12px] mt-[10px]">Trees Planted</p>
           </div>
           <div
-            class="md:w-1/3 w-full text-center py-[50px] rounded-[20px] bg-white"
+            class="md:w-1/3 w-full text-center py-[50px] rounded-[20px] bg-white hover:bg-[#86dda9]"
           >
             <p class="font-bold text-[20px] text-green-800">120+</p>
             <p class="text-[12px] mt-[10px]">Communities Involved</p>
           </div>
           <div
-            class="md:w-1/3 w-full text-center py-[50px] rounded-[20px] bg-white"
+            class="md:w-1/3 w-full text-center py-[50px] rounded-[20px] bg-white hover:bg-[#86dda9]"
           >
             <p class="font-bold text-[20px] text-green-800">30+</p>
             <p class="text-[12px] mt-[10px]">Countries Reached</p>
           </div>
+
         </div>
       </div>
     </main>
 
     <!-- ---------------footer_part----------------- -->
-    <main class="bg-[#166534] ">
+    <main class="bg-[#166534]">
       <section class="">
         <div class="pt-[80px]">
           <p class="text-[28px] font-medium text-white text-center">
@@ -167,32 +194,68 @@
         </div>
 
         <div
-          class="max-w-[650px]  flex justify-center items-center mx-auto mt-[30px] bg-[#15803D] rounded-[20px] py-[50px] px-[30px]"
+          class="max-w-[650px] flex justify-center items-center mx-auto mt-[30px] bg-[#15803D] rounded-[20px] py-[50px] px-[30px]"
         >
-          <form action="" class="flex flex-col justify-center items-center w-full">
+          <form
+            action=""
+            class="flex flex-col justify-center items-center w-full"
+          >
             <input
               type="text"
               placeholder="Your Name"
-              class="w-full h-[40px] rounded-[10px] mb-[15px] pl-3 bg-white"
+              class="w-full h-[40px] rounded-[7px] mb-[15px] pl-3 bg-white"
             />
             <input
               type="text"
               placeholder="Your Email Address"
-              class="w-full h-[40px] rounded-[10px] mb-[15px] pl-3 bg-white"
+              class="w-full h-[40px] rounded-[7px] mb-[15px] pl-3 bg-white"
             />
-            <select class="w-full bg-white rounded-[10px] h-[40px] pl-3 pr-4">
-              <option>Pick a browser</option>
-              <option>Chrome</option>
-              <option>FireFox</option>
-              <option>Safari</option>
+            <select class="w-full bg-white rounded-[7px] h-[40px] pl-3 pr-4">
+              <option>Number of Tree</option>
+              <option>Mango Tree</option>
+              <option>Guava Tree</option>
+              <option>Jackfruit Tree</option>
+              <option>Gulmohar</option>
+              <option>Water Lily</option>
+              <option>Lotus</option>
+              <option>Water Hyacinth</option>
+              <option>Passion Flower</option>
+              <option>Bougainvillea</option>
+              <option>Money Plant</option>
+              <option>Golden Bamboo</option>
+              <option>Black Bamboo</option>
+              <option>Giant Bamboo</option>
+              <option>Bonsai</option>
+              <option>Areca Palm</option>
+              <option>Fan Palm</option>
+              <option>Fir</option>
+              <option>Pine</option>
+              <option>Teak</option>
+              <option>Sal Tree</option>
+              <option>Amla Tree</option>
+              <option>Arjun Tree</option>
+              <option>Bael Tree</option>
+              <option>Banyan Tree</option>
+              <option>Neem Tree</option>
+              <option>Rain Tree</option>
+              <option>Krishnachura</option>
+              <option>Champa</option>
+              <option>Gulmohar</option>
+              <option>Jackfruit Tree</option>
+              <option>Guava Tree</option>
+              <option>Mango Tree</option>
             </select>
             <button
-              class="bg-[#FECC15] text-black rounded-[999px] py-[8px] px-[22px] font-[400] mt-[15px] w-full">Donate Now
+              class="bg-[#FECC15] text-black rounded-[999px] py-[8px] px-[22px] font-[400] mt-[15px] w-full"
+            >
+              Donate Now
             </button>
           </form>
         </div>
 
-        <div class="bg-[#14532D] mt-[100PX] text-center text-white py-[15px]">© 2025 Green Earth. All Rights Reserved.</div>
+        <div class="bg-[#14532D] mt-[100PX] text-center text-white py-[15px]">
+          © 2025 Green Earth. All Rights Reserved.
+        </div>
       </section>
     </main>
 
