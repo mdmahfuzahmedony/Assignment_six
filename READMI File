@@ -1,6 +1,5 @@
 // -----------------------------------number_1------------------------------
 
-
 #### 1) What is the difference between var, let, and const?
 
 Ans: Javascript var , let , const, are all used to declare variables, but they are behave differently in terms of scope ,re-declaration , and mutability. so  let know to difference,
@@ -19,8 +18,6 @@ Ans: Javascript var , let , const, are all used to declare variables, but they a
      #Hoisting: Hoisted but not initialized (in temporal dead zone until defined).
      #Usage: Use when the variable value needs to change.
 
-
-
 3:const
 
      #Scope: Block-scoped (like let).
@@ -28,8 +25,6 @@ Ans: Javascript var , let , const, are all used to declare variables, but they a
      #Hoisting: Hoisted but not initialized (same temporal dead zone as let).
      #Mutability: Must be assigned a value when declared, cannot be re-assigned.
      #Usage: Use when the variable should not be reassigned (but note: objects/arrays can still be modified).
-
-
 
 // -----------------------------------number_2------------------------------
 
@@ -43,37 +38,28 @@ Ans:(map(), forEach(), and filter()) They are all array methods in JavaScript. T
    #Return value: New array with modified values.
    #Usage: Best when you want to change data and use it later.
 
-
 2:forEach()
 
     #Purpose: Execute a function for each element in an array.
     #Return value: Always undefined (doesn’t create a new array).
     #Usage: Best when you just want to do something (e.g., log, update DOM) without returning anything.
 
-
 3:filter()
 #Purpose: Returns a new array containing only elements that pass a condition (true).
 #Return value: New array.
 #Usage: Best when you want to select specific items.
 
-
-
 // -----------------------------------number_3------------------------------
-
 
 #### 3) What are arrow functions in ES6?
 
 Ans: just a new syntex for writing function useing the => arrow .it is very easy for devoloper beacuse function keyword , curly braces or return no need for .
 
-
 // -----------------------------------number_4------------------------------
-
 
 #### 4) How does destructuring assignment work in ES6?
 
 Ans: 
-
-
 1: Array Destructuring: 
 
     const numbers = [10, 20, 30];
@@ -93,8 +79,7 @@ const { name, age } = person;
 console.log(name); 
 console.log(age);  
 
-// -----------------------------------number_5------------------------------
-// -----------------------------------number_5------------------------------
+
 // -----------------------------------number_5------------------------------
 
 #### 5) Explain template literals in ES6. How are they different from string concatenation?

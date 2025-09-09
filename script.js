@@ -1,17 +1,12 @@
-let activeCategory = "All plants"; 
+let activeCategory = "All plants";
 let activeID = null;
 let plantId = null;
 let openModal = false;
 
-// Spinner element ধরো
 const spinner = document.getElementById("spinner");
-
-// Loader show
 function showLoader() {
   spinner.classList.remove("hidden");
 }
-
-// Loader hide
 function hideLoader() {
   spinner.classList.add("hidden");
 }
@@ -19,27 +14,26 @@ function hideLoader() {
 const allCategory = document.getElementById("allCategory");
 const card_section = document.getElementById("card_section");
 
-
 fetch("https://openapi.programming-hero.com/api/categories")
   .then((res) => res.json())
   .then((data) => {
-    renderCategories(data.categories, allCategory); 
+    
+    renderCategories(data.categories, allCategory);
   });
-
 
 loadPlants("All plants");
 
 function loadPlants(category, id = null) {
-  showLoader()
+  showLoader();
 
-if (category === "All plants") {
+  if (category === "All plants") {
     fetch("https://openapi.programming-hero.com/api/plants")
       .then((res) => res.json())
       .then((data) => {
         cardSections(data.plants, card_section);
-        hideLoader(); // 👉 কার্ড রেন্ডার শেষ হলে spinner লুকাও
+        hideLoader();
       })
-      .catch(() => hideLoader()); // 👉 error হলেও hide করতে হবে
+      .catch(() => hideLoader());
   } else {
     fetch(`https://openapi.programming-hero.com/api/category/${id}`)
       .then((res) => res.json())
@@ -49,7 +43,6 @@ if (category === "All plants") {
       })
       .catch(() => hideLoader());
   }
-
 }
 
 function cardSections(plants, card_section) {
@@ -98,32 +91,38 @@ function cardSections(plants, card_section) {
       fetch(`https://openapi.programming-hero.com/api/plant/${plantId}`)
         .then((res) => res.json())
         .then((data) => {
-          plantModal(data.plants); // ✅ এখানে data.data ইউজ করতে হবে
+          plantModal(data.plants);
         });
     });
   });
 
   // -------------handel to add to cart --------------
 
-  document.querySelectorAll(".button_cart").forEach(btn => {
-  const cartItems = document.getElementById("cart_items");
-  const cartTotal = document.getElementById("cart_total");
-  const totalRow = document.getElementById("cart_total_row"); // total row div
+  document.querySelectorAll(".button_cart").forEach((btn) => {
+    const cartItems = document.getElementById("cart_items");
+    const cartTotal = document.getElementById("cart_total");
+    const totalRow = document.getElementById("cart_total_row");
 
-  btn.addEventListener("click", () => {
-    const productCard = btn.closest("div");
-    const productName = productCard.querySelector("h1").innerText;
-    const productPriceText = productCard.querySelector("p.font-bold").innerText;
-    const productPrice = parseInt(productPriceText.replace("৳", ""));
+    btn.addEventListener("click", () => {
+      const productCard = btn.closest("div");
+      const productName = productCard.querySelector("h1").innerText;
+      const productPriceText =
+        productCard.querySelector("p.font-bold").innerText;
+      const productPrice = parseInt(productPriceText.replace("৳", ""));
 
-    totalRow.classList.remove("hidden");
-   
-    const cartItem = document.createElement("div");
-    cartItem.classList.add(
-      "flex", "justify-between", "items-center", "p-2", "bg-green-100", "rounded"
-    );
+      totalRow.classList.remove("hidden");
 
-    cartItem.innerHTML = `
+      const cartItem = document.createElement("div");
+      cartItem.classList.add(
+        "flex",
+        "justify-between",
+        "items-center",
+        "p-2",
+        "bg-green-100",
+        "rounded"
+      );
+
+      cartItem.innerHTML = `
       <div>
         <div class="cart-name font-medium">${productName}</div>
         <div class="cart-price text-gray-600">৳${productPrice} × <span class="cart-qty">1</span></div>
@@ -131,36 +130,32 @@ function cardSections(plants, card_section) {
       <button class="remove-btn text-gray-600 hover:text-red-500">❌</button>
     `;
 
-    cartItems.appendChild(cartItem);
+      cartItems.appendChild(cartItem);
 
-    // remove functionality
-    cartItem.querySelector(".remove-btn").addEventListener("click", () => {
-      cartItem.remove();
+      cartItem.querySelector(".remove-btn").addEventListener("click", () => {
+        cartItem.remove();
+        updateTotal();
+
+        if (cartItems.children.length === 0) {
+          totalRow.classList.add("hidden");
+        }
+      });
+
       updateTotal();
-
-      // যদি সব item মুছে যায় → total row আবার hide হবে
-      if (cartItems.children.length === 0) {
-        totalRow.classList.add("hidden");
-      }
     });
 
-    updateTotal();
+    function updateTotal() {
+      let total = 0;
+      cartItems.querySelectorAll(".cart-price").forEach((priceEl) => {
+        let text = priceEl.innerText;
+        let price = parseInt(text.split("×")[0].replace("৳", "").trim());
+        let qty = parseInt(priceEl.querySelector(".cart-qty").innerText);
+        total += price * qty;
+      });
+      cartTotal.innerText = "৳" + total;
+    }
   });
-
-  function updateTotal() {
-    let total = 0;
-    cartItems.querySelectorAll(".cart-price").forEach(priceEl => {
-      let text = priceEl.innerText; // e.g. "৳500 × 1"
-      let price = parseInt(text.split("×")[0].replace("৳", "").trim());
-      let qty = parseInt(priceEl.querySelector(".cart-qty").innerText);
-      total += price * qty;
-    });
-    cartTotal.innerText = "৳" + total;
-  }
-});
 }
-
-
 
 function renderCategories(categories, container) {
   const categoryHTML = categories
@@ -195,16 +190,14 @@ function renderCategories(categories, container) {
     </ul>
   `;
 
-  // ✅ শুধু একবার event listener
+
   document.querySelectorAll(".category-item").forEach((li) => {
     li.addEventListener("click", () => {
       activeCategory = li.dataset.name;
       activeID = li.dataset.id;
 
-      // নতুন active state রেন্ডার
       renderCategories(categories, container);
 
-      // API থেকে প্ল্যান্ট লোড
       if (activeCategory === "All plants") {
         loadPlants("All plants");
       } else {
@@ -227,14 +220,18 @@ function plantModal(data) {
       data.image
     }" class="w-full h-48 object-cover rounded-md mb-3"/>
     
-    <p id="modalDesc" class="text-black mb-1 font-bold">Category: ${data.category}</p>
+    <p id="modalDesc" class="text-black mb-1 font-bold">Category: ${
+      data.category
+    }</p>
 
     <p class="font-bold text-lg ">Price:<span id="modalPrice" > ৳${
       data.price
-}</span></p>
+    }</span></p>
 
 
-    <p id="modalDesc" class="text-gray-600 mb-6"><span class="font-semibold text-justify text-black">Description:</span>${data.description}</p>
+    <p id="modalDesc" class="text-gray-600 mb-6"><span class="font-semibold text-justify text-black">Description:</span>${
+      data.description
+    }</p>
   </div>
 </div>
 
@@ -242,7 +239,7 @@ function plantModal(data) {
 
   document.getElementById("closeModal").addEventListener("click", () => {
     openModal = false;
-    document.getElementById("plantModal").classList.add("hidden"); // modal hide
+    document.getElementById("plantModal").classList.add("hidden"); 
     console.log("Modal closed:", openModal);
   });
 }
