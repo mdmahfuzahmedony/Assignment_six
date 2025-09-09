@@ -1,55 +1,31 @@
-let activeCategory = "All plants"; 
+let activeCategory = "All plants"; // default active
 let activeID = null;
 let plantId = null;
 let openModal = false;
 
-// Spinner element ধরো
-const spinner = document.getElementById("spinner");
-
-// Loader show
-function showLoader() {
-  spinner.classList.remove("hidden");
-}
-
-// Loader hide
-function hideLoader() {
-  spinner.classList.add("hidden");
-}
-
 const allCategory = document.getElementById("allCategory");
 const card_section = document.getElementById("card_section");
 
-
+// প্রথমে category লোড করো
 fetch("https://openapi.programming-hero.com/api/categories")
   .then((res) => res.json())
   .then((data) => {
-    renderCategories(data.categories, allCategory); 
+    renderCategories(data.categories, allCategory); // ✅ এখানে data.data ইউজ করতে হবে
   });
 
-
+// প্রথমে সব প্ল্যান্ট দেখাই
 loadPlants("All plants");
 
 function loadPlants(category, id = null) {
-  showLoader()
-
-if (category === "All plants") {
+  if (category === "All plants") {
     fetch("https://openapi.programming-hero.com/api/plants")
       .then((res) => res.json())
-      .then((data) => {
-        cardSections(data.plants, card_section);
-        hideLoader(); // 👉 কার্ড রেন্ডার শেষ হলে spinner লুকাও
-      })
-      .catch(() => hideLoader()); // 👉 error হলেও hide করতে হবে
+      .then((data) => cardSections(data.plants, card_section));
   } else {
     fetch(`https://openapi.programming-hero.com/api/category/${id}`)
       .then((res) => res.json())
-      .then((data) => {
-        cardSections(data.plants, card_section);
-        hideLoader();
-      })
-      .catch(() => hideLoader());
+      .then((data) => cardSections(data.plants, card_section));
   }
-
 }
 
 function cardSections(plants, card_section) {
@@ -60,15 +36,14 @@ function cardSections(plants, card_section) {
        <img src="${plant.image}" class="h-40 w-full rounded-md object-cover"/>
        <h1 id="modal" data-plantid="${
          plant.id
-       }" class="text-left font-semibold plant-card cursor-pointer pt-2">${
+       }" class="text-left font-semibold plant-card cursor-pointer">${
         plant.name
       }</h1>
-       <p class="text-left text-sm text-gray-600 pt-2">${plant.description.slice(
+       <p class="text-left text-sm text-gray-600">${plant.description.slice(
          0,
          80
        )}...</p>
-
-       <div class="flex justify-between items-center mt-3">
+       <div class="flex justify-between items-center mt-2">
          <button class="bg-green-600 text-white text-xs px-2 py-1 rounded-full">Fruit Free</button>
          <p class="font-bold">৳${plant.price}</p>
        </div>
@@ -105,6 +80,10 @@ function cardSections(plants, card_section) {
 
   // -------------handel to add to cart --------------
 
+  // -------------handle add to cart --------------
+
+
+
   document.querySelectorAll(".button_cart").forEach(btn => {
   const cartItems = document.getElementById("cart_items");
   const cartTotal = document.getElementById("cart_total");
@@ -116,8 +95,10 @@ function cardSections(plants, card_section) {
     const productPriceText = productCard.querySelector("p.font-bold").innerText;
     const productPrice = parseInt(productPriceText.replace("৳", ""));
 
+    // যদি total row hide থাকে তবে দেখানো হবে
     totalRow.classList.remove("hidden");
-   
+
+    // --- এখানে add to cart এর কোড থাকবে ---
     const cartItem = document.createElement("div");
     cartItem.classList.add(
       "flex", "justify-between", "items-center", "p-2", "bg-green-100", "rounded"
@@ -222,19 +203,14 @@ function plantModal(data) {
   } items-center justify-center ">
   <div class="bg-white rounded-lg shadow-lg w-96 p-5 relative">
     <button id="closeModal" class="absolute close-modal bottom-2 right-2  border-1 border-black text-black py-1 px-4 rounded-full">Close</button>
-    <h2 id="modalTitle" class="text-xl font-bold mb-2"> ${data.name}</h2>
     <img id="modalImage" src="${
       data.image
     }" class="w-full h-48 object-cover rounded-md mb-3"/>
-    
-    <p id="modalDesc" class="text-black mb-1 font-bold">Category: ${data.category}</p>
-
-    <p class="font-bold text-lg ">Price:<span id="modalPrice" > ৳${
+    <h2 id="modalTitle" class="text-xl font-bold mb-2">${data.name}</h2>
+    <p id="modalDesc" class="text-gray-600 mb-3">${data.description}</p>
+    <p class="font-bold text-lg">Price: <span id="modalPrice">${
       data.price
-}</span></p>
-
-
-    <p id="modalDesc" class="text-gray-600 mb-6"><span class="font-semibold text-justify text-black">Description:</span>${data.description}</p>
+    }</span>৳</p>
   </div>
 </div>
 
